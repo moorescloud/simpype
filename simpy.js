@@ -165,12 +165,15 @@ function Sim() {
 
 	this.theCanvas = document.getElementById("canvas");
 	this.theContext = this.theCanvas.getContext("2d");
-	this.canvasWidth = 500;
-	this.canvasHeight = 500;
-	this.theContext.fillStyle="#000000";
+	this.canvasWidth = 1000;
+	this.canvasHeight = 200;
+	this.theContext.fillStyle="black";
 	this.theContext.fillRect(0,0,this.canvasWidth,this.canvasHeight);
 	this.drawscreen = drawscreen;
 	this.holiday = new Holiday();
+
+	this.logo = new Image();
+	this.logo.src = 'logo.jpg';
 
 	// Array of globe locations, eventually goes here
 	this.NUM_GLOBES = 50;
@@ -184,9 +187,10 @@ function Sim() {
 		// Arranging them all neatly in a circle.
 		// This means each is separated by 2pi / 50
 		elements = new Array();
-		elements['x'] = 245 + (180 * Math.sin(this.globe_advance * j));
-		//elements['x'] = j * 9;
-		elements['y'] = 245 - (180 * Math.cos(this.globe_advance * j));
+		//elements['x'] = 245 + (180 * Math.sin(this.globe_advance * j));
+		elements['x'] = (j * 17) + 125;
+		//elements['y'] = 245 - (180 * Math.cos(this.globe_advance * j));
+		elements['y'] = 80;
 		//elements['rgb'] = "#ffffff";
 		this.globe[j] = elements;
 
@@ -196,14 +200,25 @@ function Sim() {
 
 	function drawscreen() {
 
+		// draw the line connecting the globes
+		this.theContext.beginPath();
+		this.theContext.moveTo(50, 80);
+		this.theContext.lineTo(125 + (49*17), 80); 
+		//this.theContext.closePath();
+		this.theContext.strokeStyle="white";
+		this.theContext.stroke();
+
+		// draw in the logo
+		this.theContext.drawImage(this.logo, 20, 40);
+
 		for (j = 0; j < this.NUM_GLOBES; j++) {
-			this.theContext.fillStyle = this.holiday.bulb2hex(j);
 			//this.theContext.fillRect(this.globe[j].x, this.globe[j].y, 5, 5);
 
 			//draw a circle
 			this.theContext.beginPath();
-			this.theContext.arc(this.globe[j].x, this.globe[j].y, 7, 0, Math.PI*2, true); 
+			this.theContext.arc(this.globe[j].x, this.globe[j].y, 6, 0, Math.PI*2, true); 
 			this.theContext.closePath();
+			this.theContext.fillStyle = this.holiday.bulb2hex(j);
 			this.theContext.fill();
 		}
 	}
