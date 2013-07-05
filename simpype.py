@@ -42,8 +42,6 @@ class APIServer(threading.Thread):
 		global app
 		app.run(host='0.0.0.0', port=8080, debug=True)
 
-
-#
 class Sing(threading.Thread):
 	""" Once again, borrowed from the Processing framework
 	    This thread calls setup() once
